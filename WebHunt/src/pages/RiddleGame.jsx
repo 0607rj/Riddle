@@ -1,6 +1,7 @@
+// src/pages/RiddleGame.jsx
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RiddleList from '../components/RiddleList';
-import '../styles/RiddleGame.css';
 import axios from 'axios';
 
 const riddles = [
@@ -13,37 +14,74 @@ const riddles = [
 
 const RiddleGame = () => {
   const [teamName, setTeamName] = useState('');
-  const [inputName, setInputName] = useState('');
+  const [isTeamSubmitted, setIsTeamSubmitted] = useState(false);
   const [answers, setAnswers] = useState(Array(riddles.length).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tabSwitchCount, setTabSwitchCount] = useState(0);
+  const [hasSwitchedTab, setHasSwitchedTab] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
+  const navigate = useNavigate();
 
   // Fullscreen
   useEffect(() => {
-    if (teamName) {
+    if (isTeamSubmitted) {
       const el = document.documentElement;
       if (el.requestFullscreen) el.requestFullscreen();
     }
-  }, [teamName]);
+  }, [isTeamSubmitted]);
 
-  // Tab switch detection
+  // Tab switch & fullscreen exit detection
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setTabSwitchCount(prev => {
-          const newCount = prev + 1;
-          if (newCount >= 3) {
-            alert('❌ You switched tabs too many times. You are disqualified.');
-            window.location.reload();
-          }
-          return newCount;
-        });
+    const handleDisqualify = () => {
+      if (!hasSwitchedTab) {
+        setHasSwitchedTab(true);
+        // Directly navigate to disqualified page without alert
+        navigate('/disqualified');
       }
     };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        handleDisqualify();
+      }
+    };
+
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        handleDisqualify();
+      }
+    };
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, [hasSwitchedTab, navigate]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!isTeamSubmitted || submitted) return;
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleSubmit(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [isTeamSubmitted, submitted]);
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   const handleAnswerChange = (index, value) => {
     const updated = [...answers];
@@ -51,74 +89,69 @@ const RiddleGame = () => {
     setAnswers(updated);
   };
 
-  const handleSubmit = async () => {
+  // Submit team name to backend for registration
+  const handleTeamSubmit = async () => {
+    if (!teamName.trim()) {
+      alert('Please enter a valid team name');
+      return;
+    }
+
+    try {
+      // Simulated API call — Replace with actual team registration endpoint
+      await axios.post('https://jsonplaceholder.typicode.com/posts', { teamName }); // Placeholder API
+      console.log('Team registered:', teamName);
+      setIsTeamSubmitted(true);
+    } catch (err) {
+      alert('Failed to register team name. Try again.');
+    }
+  };
+
+  // Submit answers to backend for verification
+  const handleSubmit = async (auto = false) => {
     if (submitted || loading) return;
+
+    const anyEmpty = answers.some(ans => ans.trim() === '');
+    if (anyEmpty && !auto) {
+      alert('Please answer all riddles before submitting.');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      // TODO: Replace with actual backend URL later
-      // await axios.post('https://your-backend-url.com/api/submit-riddles', { teamName, answers });
-
-      // Temporary mock for development
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log('Submitted:', { teamName, answers });
-
-      alert('✅ Answers submitted successfully!');
+      // Simulated API call — Replace with actual answer verification endpoint
+      await axios.post('https://jsonplaceholder.typicode.com/posts', { teamName, answers }); // Placeholder API
+      console.log('Submitted answers:', { teamName, answers });
       setSubmitted(true);
+      navigate('/thank-you');
     } catch (err) {
-      alert('❌ Submission failed. Try again later.');
+      alert('Submission failed. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleTeamSubmit = async () => {
-    if (!inputName.trim()) {
-      alert('Please enter your full team name.');
-      return;
-    }
-
-    try {
-      // TODO: Replace with backend API URL later
-      // await axios.post('https://your-backend-url.com/api/register-team', { teamName: inputName });
-
-      // Temporary mock for development
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.log('Team registered:', inputName);
-
-      setTeamName(inputName);
-    } catch (err) {
-      alert('Failed to register team. Try again.');
-    }
-  };
-
   return (
     <div className="game-container">
-      {!teamName ? (
-        <div className="team-entry">
+      {!isTeamSubmitted ? (
+        <div className="team-input">
           <h2>Enter Your Team Name</h2>
           <input
             type="text"
+            value={teamName}
             placeholder="Team Name"
-            value={inputName}
-            onChange={(e) => setInputName(e.target.value)}
+            onChange={(e) => setTeamName(e.target.value)}
           />
-          <button onClick={handleTeamSubmit}>Start Game</button>
+          <button onClick={handleTeamSubmit}>Start</button>
         </div>
       ) : (
         <div>
-          <h2 className="title">Welcome {teamName}! Solve the Riddles</h2>
-          <RiddleList
-            riddles={riddles}
-            answers={answers}
-            onAnswerChange={handleAnswerChange}
-            submitted={submitted}
-          />
-          <button
-            onClick={handleSubmit}
-            disabled={submitted || loading}
-            className="submit-button"
-          >
+          <div className="header">
+            <h2>Welcome, {teamName}</h2>
+            <div className="timer">⏳ Time Left: {formatTime(timeLeft)}</div>
+          </div>
+          <RiddleList riddles={riddles} answers={answers} onAnswerChange={handleAnswerChange} submitted={submitted} />
+          <button onClick={() => handleSubmit(false)} disabled={submitted || loading} className="submit-button">
             {loading ? 'Submitting...' : 'Submit Answers'}
           </button>
         </div>
