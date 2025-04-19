@@ -2,16 +2,17 @@ import React from 'react';
 
 const RiddleList = ({ riddles, answers, onAnswerChange, submitted }) => {
   return (
-    <div>
+    <div className="riddle-list">
       {riddles.map((riddle, index) => (
-        <div className="riddle-card" key={riddle.id}>
+        <div key={riddle.id} className="riddle-item">
           <p>{riddle.question}</p>
           <input
             type="text"
-            value={answers[index] || ''}
+            value={answers[index]}
             onChange={(e) => onAnswerChange(index, e.target.value)}
+            className={submitted === false && answers[index].trim() === '' ? 'input-error' : ''}
             disabled={submitted}
-            placeholder="Your Answer"
+            placeholder="Your answer"
           />
         </div>
       ))}

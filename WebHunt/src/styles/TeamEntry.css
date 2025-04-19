@@ -1,0 +1,72 @@
+/* TeamEntry.css */
+
+/* Overall container for team entry */
+.team-entry-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-image: url('../assets/background.jpg');
+    background-size: contain; /* Ensure the image covers the full container */
+    background-position: center center; /* Keep the image centered */
+    background-repeat: no-repeat; /* Prevent image repetition */
+}
+
+
+  
+  
+  /* Form container */
+  .team-entry-form {
+    opacity: 0.9;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 240px;
+  }
+  
+  /* Title */
+  .team-entry-form h2 {
+    font-size: 24px;
+    color: #f2f2f5;
+    margin-bottom: 20px;
+  }
+  
+  /* Input field for team name */
+  .team-entry-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Submit button */
+  .team-submit-button {
+    background-color: #238ce2;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .team-submit-button:hover {
+    background-color: #de38f4;
+  }
+  
+  /* Alert for invalid input */
+  .team-entry-form .alert {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
