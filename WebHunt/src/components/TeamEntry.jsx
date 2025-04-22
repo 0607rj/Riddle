@@ -13,10 +13,15 @@ const TeamEntry = ({ onTeamSubmit }) => {
     }
 
     try {
-      // Log the team name to verify before sending it
-      console.log('Submitting team name:', inputName);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const registerTeamEndpoint = import.meta.env.VITE_REGISTER_TEAM_ENDPOINT;
+      
 
-      const response = await fetch('https://web-hunt.onrender.com/api/quiz/register-team', {
+      // ✅ Debug logs to check if environment variables are working
+      // console.log('API URL:', apiUrl);
+      // console.log('Register Team Endpoint:', registerTeamEndpoint);
+
+      const response = await fetch(`${apiUrl}${registerTeamEndpoint}`, {
         method: 'POST',
         body: JSON.stringify({ teamName: inputName }),
         headers: { 'Content-Type': 'application/json' },
@@ -30,7 +35,6 @@ const TeamEntry = ({ onTeamSubmit }) => {
       console.log('Team name registered successfully:', inputName);
 
       onTeamSubmit(inputName);
-
       navigate('/riddlegame');
     } catch (err) {
       console.error('Error during team name registration:', err);

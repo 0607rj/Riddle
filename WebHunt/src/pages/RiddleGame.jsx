@@ -1,7 +1,6 @@
-// RiddleGame.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RiddleList from '../components/RiddleList';
+import RiddleList from '../components/RiddleList';  // Ensure this component exists
 import '../styles/RiddleGame.css';
 
 const riddles = [
@@ -109,10 +108,14 @@ const RiddleGame = ({ teamName }) => {
     setLoading(true);
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const submitAnswersEndpoint = import.meta.env.VITE_SUBMIT_ANSWERS_ENDPOINT;
+
+
       console.log('Submitting answers for team:', teamName);
       console.log('Answers:', answers);
 
-      const response = await fetch('https://web-hunt.onrender.com/api/quiz/submit-answers', {
+      const response = await fetch(`${apiUrl}${submitAnswersEndpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
