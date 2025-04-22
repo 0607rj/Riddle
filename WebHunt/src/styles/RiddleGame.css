@@ -91,7 +91,6 @@
   color: #ff6347;
 }
 
-
 .input-error {
   border: 2px solid red !important;
 }
@@ -116,24 +115,15 @@
   background-color: gray;
   cursor: not-allowed;
   opacity: 0.6;
-}.riddle-hint {
+}
+
+.riddle-hint {
   font-size: 0.9rem;
   color: gray;
   margin-top: 5px;
 }
 
-
-
-
-
-
-
-
-
-
-
-/* RiddleGame.css */
-
+/* Start screen */
 .start-screen {
   height: 100vh;
   width: 100vw;
@@ -169,10 +159,88 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .start-button:hover {
   background-color: #393e46;
   transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header h2 {
+    font-size: 24px;
+  }
+
+  .timer {
+    font-size: 16px;
+  }
+
+  .riddle-list {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .riddle-item input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submit-answers-button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .start-screen h2 {
+    font-size: 2rem;
+  }
+
+  .start-screen p {
+    font-size: 1rem;
+  }
+
+  .start-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .timer {
+    font-size: 14px;
+  }
+
+  .riddle-list {
+    padding: 10px;
+    max-width: 95%;
+  }
+
+  .riddle-item input {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .submit-answers-button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .start-screen h2 {
+    font-size: 1.5rem;
+  }
+
+  .start-screen p {
+    font-size: 0.9rem;
+  }
+
+  .start-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
