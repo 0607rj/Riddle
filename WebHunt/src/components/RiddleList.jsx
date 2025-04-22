@@ -6,6 +6,10 @@ const RiddleList = ({ riddles, answers, onAnswerChange, submitted }) => {
       {riddles.map((riddle, index) => (
         <div key={riddle.id} className="riddle-item">
           <p>{riddle.question}</p>
+          {/* Display the hint below each question */}
+          {riddle.hint && !submitted && (
+            <p className="riddle-hint">{riddle.hint}</p>
+          )}
           <input
             type="text"
             value={answers[index]}

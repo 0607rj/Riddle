@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/RiddleGame.css';
+import'../styles/ThankYou.css';
 
 const ThankYou = () => {
   return (

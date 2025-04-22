@@ -1,79 +1,98 @@
+// RiddleGame.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RiddleList from '../components/RiddleList';
-import axios from 'axios';
-import '../styles/RiddleGame.css'; // Ensure this includes styles below
+import '../styles/RiddleGame.css';
 
 const riddles = [
-  { id: 1, question: 'I speak without a mouth and hear without ears. I have nobody, but I come alive with the wind. What am I?' },
-  { id: 2, question: 'You measure my life in hours and I serve you by expiring. I\'m quick when I\'m thin and slow when I\'m fat. The wind is my enemy.' },
-  { id: 3, question: 'I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?' },
-  { id: 4, question: 'What can run but never walks, has a bed but never sleeps, has a mouth but never talks?' },
-  { id: 5, question: 'The more of me you take, the more you leave behind. What am I?' },
+  {
+    id: 1,
+    question: 'I protect your accounts and data, and you need me to log in. Without me, your secrets are exposed. What am I?',
+    hint: 'You type me in when logging into your accounts to keep them secure.'
+  },
+  {
+    id: 2,
+    question: 'I’m the first line of defense, keeping your digital world safe. Without me, you’re vulnerable to attack. What am I?',
+    hint: 'I monitor incoming and outgoing data to protect your network from harmful threats.'
+  },
+  {
+    id: 3,
+    question: 'I make your data unreadable to others, and only the right key can unlock it. What am I?',
+    hint: 'When your data is protected, it’s in a scrambled form that requires a secret key to unlock.'
+  },
+  {
+    id: 4,
+    question: 'I can automatically perform tasks online, but I’m not a real person. What am I?',
+    hint: 'I can run repetitive tasks like sending messages or collecting data without human intervention.'
+  },
+  {
+    id: 5,
+    question: 'I’m a hidden part of the internet used for secretive or illegal activities. What am I?',
+    hint: 'I’m not accessible by normal browsers and is often used for anonymity or illegal trading.'
+  }
 ];
 
 const RiddleGame = ({ teamName }) => {
   const [answers, setAnswers] = useState(Array(riddles.length).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
-  const [hasSwitchedTab, setHasSwitchedTab] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(1800);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [disqualified, setDisqualified] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen();
-  }, []);
+  const disqualify = () => {
+    if (!disqualified) {
+      setDisqualified(true);
+      navigate('/disqualified');
+    }
+  };
+
+  const startGame = async () => {
+    try {
+      await document.documentElement.requestFullscreen();
+      setGameStarted(true);
+    } catch (err) {
+      alert('Fullscreen permission denied. Please allow fullscreen to continue.');
+    }
+  };
 
   useEffect(() => {
-    const handleDisqualify = () => {
-      if (!hasSwitchedTab) {
-        setHasSwitchedTab(true);
-        navigate('/disqualified');
-      }
+    if (!gameStarted) return;
+
+    const onVisibilityChange = () => {
+      if (document.hidden) disqualify();
     };
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        handleDisqualify();
-      }
+    const onFullscreenChange = () => {
+      if (!document.fullscreenElement) disqualify();
     };
 
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        handleDisqualify();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    document.addEventListener('fullscreenchange', onFullscreenChange);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
     };
-  }, [hasSwitchedTab, navigate]);
+  }, [gameStarted, disqualified]);
 
   useEffect(() => {
-    if (submitted) return;
+    if (!gameStarted || submitted) return;
+
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          handleSubmit(true); // Auto-submit
+          handleSubmit(true);
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
-    return () => clearInterval(timer);
-  }, [submitted]);
 
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
+    return () => clearInterval(timer);
+  }, [submitted, gameStarted]);
 
   const handleAnswerChange = (index, value) => {
     const updated = [...answers];
@@ -84,31 +103,61 @@ const RiddleGame = ({ teamName }) => {
   const handleSubmit = async (auto = false) => {
     if (submitted || loading) return;
 
-    const anyEmpty = answers.some(ans => ans.trim() === '');
-    if (anyEmpty && !auto) {
-      // Don't alert or exit fullscreen
-      return;
-    }
+    const anyEmpty = answers.some((ans) => ans.trim() === '');
+    if (anyEmpty && !auto) return;
 
     setLoading(true);
+
     try {
-      await axios.post('https://jsonplaceholder.typicode.com/posts', { teamName, answers });
+      console.log('Submitting answers for team:', teamName);
+      console.log('Answers:', answers);
+
+      const response = await fetch('https://web-hunt.onrender.com/api/quiz/submit-answers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teamName,
+          answers: answers.map((answer, index) => ({
+            questionId: index + 1,
+            givenAnswer: answer.trim(),
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit answers');
+      }
+
       setSubmitted(true);
+      console.log('Answers submitted successfully.');
       navigate('/thank-you');
     } catch (err) {
-      console.error('Submission failed:', err);
+      console.error('Error during answer submission:', err);
+      alert('Failed to submit answers. Try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const allFilled = answers.every(ans => ans.trim() !== '');
+  if (!gameStarted) {
+    return (
+      <div className="start-screen">
+        <h2>Welcome, {teamName}</h2>
+        <p>Please click the button below to enter fullscreen and start the game.</p>
+        <button onClick={startGame} className="start-button">
+          Start Game
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="riddle-game-container">
       <div className="header">
         <h2>Welcome, {teamName}</h2>
-        <div className="timer">⏳ Time Left: {formatTime(timeLeft)}</div>
+        <div className="timer">
+          ⏳ Time Left: {`${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`}
+        </div>
       </div>
 
       <RiddleList
@@ -120,8 +169,8 @@ const RiddleGame = ({ teamName }) => {
 
       <button
         onClick={() => handleSubmit(false)}
-        disabled={submitted || loading || !allFilled}
-        className={`submit-answers-button ${!allFilled ? 'disabled' : ''}`}
+        disabled={submitted || loading || answers.some((ans) => ans.trim() === '')}
+        className="submit-answers-button"
       >
         {loading ? 'Submitting...' : 'Submit Answers'}
       </button>

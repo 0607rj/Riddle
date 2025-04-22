@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigating to RiddleGame
-import '../styles/TeamEntry.css'; // Import CSS file
+import { useNavigate } from 'react-router-dom';
+import '../styles/TeamEntry.css';
 
 const TeamEntry = ({ onTeamSubmit }) => {
   const [inputName, setInputName] = useState('');
-  const navigate = useNavigate(); // Navigate hook to redirect after submission
+  const navigate = useNavigate();
 
-  // Handle the team name submission
   const handleSubmit = async () => {
     if (!inputName.trim()) {
       alert('Please enter a valid team name.');
@@ -14,25 +13,27 @@ const TeamEntry = ({ onTeamSubmit }) => {
     }
 
     try {
-      // Placeholder API call — Replace with your actual API once ready
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      // Log the team name to verify before sending it
+      console.log('Submitting team name:', inputName);
+
+      const response = await fetch('https://web-hunt.onrender.com/api/quiz/register-team', {
         method: 'POST',
         body: JSON.stringify({ teamName: inputName }),
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (!response.ok) {
+        console.error('Failed to register team name');
         throw new Error('Failed to register team name');
       }
 
-      console.log('Team name registered:', inputName);
+      console.log('Team name registered successfully:', inputName);
 
-      // Pass the team name to the parent component (if necessary)
       onTeamSubmit(inputName);
 
-      // Redirect to RiddleGame after submission
       navigate('/riddlegame');
     } catch (err) {
+      console.error('Error during team name registration:', err);
       alert('Failed to register team name. Try again.');
     }
   };
