@@ -1,7 +1,4 @@
-
-
-
-/* Background container */
+/* Base Styles */
 .team-entry-container {
   display: flex;
   justify-content: center;
@@ -12,20 +9,22 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Form container */
 .team-entry-form {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   max-width: 400px;
-  width: 90%;
+  width: 100%;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
 }
 
 /* Title */
@@ -35,7 +34,7 @@
   margin-bottom: 20px;
 }
 
-/* Input field */
+/* Input Field */
 .team-entry-form input {
   width: 100%;
   padding: 12px;
@@ -43,11 +42,12 @@
   border: none;
   border-radius: 6px;
   font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.85);
   color: #333;
+  box-sizing: border-box;
 }
 
-/* Button */
+/* Submit Button */
 .team-submit-button {
   background-color: #238ce2;
   color: #fff;
@@ -70,108 +70,37 @@
   margin-top: 10px;
 }
 
-/* Responsive Design */
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-  .team-entry-container {
-    background-size: contain; /* Adjust background for smaller screens */
-  }
-
   .team-entry-form {
-    padding: 20px;
-    max-width: 300px;
+    padding: 30px;
+    max-width: 90%;
   }
 
   .team-entry-form h2 {
     font-size: 20px;
   }
 
-  .team-entry-form input {
-    font-size: 14px;
-    padding: 10px;
-  }
-
+  .team-entry-form input,
   .team-submit-button {
     font-size: 14px;
-    padding: 10px 15px;
+    padding: 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .team-entry-container {
-    background-size: cover;
-    background-position: top;
-  }
-
   .team-entry-form {
-    padding: 15px;
-    max-width: 90%;
+    padding: 20px;
+    max-width: 100%;
   }
 
   .team-entry-form h2 {
     font-size: 18px;
   }
 
-  .team-entry-form input {
+  .team-entry-form input,
+  .team-submit-button {
     font-size: 12px;
     padding: 8px;
   }
-
-  .team-submit-button {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-}
-.team-entry-form {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-/* Title */
-.team-entry-form h2 {
-  font-size: 24px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-/* Input field */
-.team-entry-form input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.8);
-  color: #333;
-}
-
-/* Button */
-.team-submit-button {
-  background-color: #238ce2;
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.team-submit-button:hover {
-  background-color: #de38f4;
-}
-
-/* Alert */
-.alert {
-  color: #ff4c4c;
-  font-size: 14px;
-  margin-top: 10px;
 }

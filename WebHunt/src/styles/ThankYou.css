@@ -5,10 +5,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 2rem;
   text-align: center;
-  background-image: url('../assets/thanku.png'); /* Replace with your actual image path */
+  background-image: url('../assets/thanku.png'); /* Make sure this is correctly linked */
   background-size: cover;
   background-position: center;
   color: #f5f5f5;
@@ -16,26 +16,31 @@
   animation: fadeIn 1.5s ease-in;
 }
 
+/* Headings */
 .game-container h1 {
-  font-size: 3rem;
+  font-size: 3.2rem;
   margin-bottom: 0.5rem;
   color: #f0d85d;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+  text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.7);
+  font-weight: 700;
 }
 
 .game-container h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
   font-weight: 500;
-  color: #c6e2ff;
+  color: #a8d4ff;
 }
 
+/* Paragraph */
 .game-container p {
   font-size: 1.2rem;
-  max-width: 600px;
-  color: #ccc;
+  max-width: 700px;
+  line-height: 1.6;
+  color: #dddddd;
 }
 
+/* Fade-in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -47,11 +52,11 @@
   }
 }
 
-/* Responsive Design */
+/* Medium Screens */
 @media (max-width: 768px) {
   .game-container {
     padding: 1.5rem;
-    background-size: contain; /* Adjust background for smaller screens */
+    background-size: contain;
   }
 
   .game-container h1 {
@@ -59,7 +64,7 @@
   }
 
   .game-container h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .game-container p {
@@ -68,6 +73,7 @@
   }
 }
 
+/* Small Screens */
 @media (max-width: 480px) {
   .game-container {
     padding: 1rem;
@@ -80,7 +86,7 @@
   }
 
   .game-container h2 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
   }
 
   .game-container p {
