@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RiddleList from '../components/RiddleList';  // Ensure this component exists
+import RiddleList from '../components/RiddleList';
 import '../styles/RiddleGame.css';
+import '../styles/Fullscreen.css'; // ✅ use your Fullscreen CSS
 
 const riddles = [
   {
@@ -111,10 +112,6 @@ const RiddleGame = ({ teamName }) => {
       const apiUrl = import.meta.env.VITE_API_URL;
       const submitAnswersEndpoint = import.meta.env.VITE_SUBMIT_ANSWERS_ENDPOINT;
 
-
-      console.log('Submitting answers for team:', teamName);
-      console.log('Answers:', answers);
-
       const response = await fetch(`${apiUrl}${submitAnswersEndpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -132,7 +129,6 @@ const RiddleGame = ({ teamName }) => {
       }
 
       setSubmitted(true);
-      console.log('Answers submitted successfully.');
       navigate('/thank-you');
     } catch (err) {
       console.error('Error during answer submission:', err);
@@ -144,13 +140,21 @@ const RiddleGame = ({ teamName }) => {
 
   if (!gameStarted) {
     return (
-      <div className="start-screen">
-        <h2>Welcome, {teamName}</h2>
-        <p>Please click the button below to enter fullscreen and start the game.</p>
-        <button onClick={startGame} className="start-button">
-          Start Game
-        </button>
-      </div>
+      <div className="fullscreen-container">
+  <div className="monitor-content">
+    <h1>WEB HUNT</h1>
+    <p>//ACCESS GRANTED//</p>
+    <h3>READY FOR THE HUNT? LET'S GET STARTED!</h3>
+    <p>CLICK THE BUTTON BELOW TO ENTER FULL SCREEN AND START THE HUNT.</p>
+    <div className="start-button">
+      <button onClick={startGame}>START</button>
+    </div>
+    <p className="warning-text">*DO NOT EXIT FULL SCREEN OR YOU WILL GET ARRESTED.</p>
+   
+  </div>
+</div>
+
+      
     );
   }
 

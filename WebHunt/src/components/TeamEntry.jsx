@@ -4,6 +4,7 @@ import '../styles/TeamEntry.css';
 
 const TeamEntry = ({ onTeamSubmit }) => {
   const [inputName, setInputName] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -12,48 +13,58 @@ const TeamEntry = ({ onTeamSubmit }) => {
       return;
     }
 
+    setLoading(true);
+    console.log('Submitting team name...');
+
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
       const registerTeamEndpoint = import.meta.env.VITE_REGISTER_TEAM_ENDPOINT;
-      
-
-      // ✅ Debug logs to check if environment variables are working
-      // console.log('API URL:', apiUrl);
-      // console.log('Register Team Endpoint:', registerTeamEndpoint);
 
       const response = await fetch(`${apiUrl}${registerTeamEndpoint}`, {
         method: 'POST',
-        body: JSON.stringify({ teamName: inputName }),
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamName: inputName }),
       });
 
       if (!response.ok) {
-        console.error('Failed to register team name');
         throw new Error('Failed to register team name');
       }
 
-      console.log('Team name registered successfully:', inputName);
+      console.log('Team name submitted successfully!');
 
       onTeamSubmit(inputName);
       navigate('/riddlegame');
-    } catch (err) {
-      console.error('Error during team name registration:', err);
-      alert('Failed to register team name. Try again.');
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Failed to register team name. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
     }
   };
 
   return (
     <div className="team-entry-container">
       <div className="team-entry-form">
-        <h2>Enter Team Name</h2>
+        <h2>Enter your Team name</h2>
         <input
           type="text"
+          placeholder="Full team name"
           value={inputName}
-          placeholder="Full Team Name"
           onChange={(e) => setInputName(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
-        <button className="team-submit-button" onClick={handleSubmit}>
-          Submit Team Name
+        <button onClick={handleSubmit} disabled={loading}>
+          {loading ? (
+            <div className="loader"></div> // Show loader if loading
+          ) : (
+            'SUBMIT'
+          )}
         </button>
       </div>
     </div>

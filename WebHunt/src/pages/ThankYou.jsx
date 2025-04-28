@@ -5,9 +5,9 @@ import'../styles/ThankYou.css';
 const ThankYou = () => {
   return (
     <div className="game-container">
-      <h1>🎉 Thank You!</h1>
-      <h2>Web Hunt has been successfully completed.</h2>
-      <p>We hope you enjoyed solving the riddles!</p>
+      <h1></h1>
+      <h2></h2>
+      <p></p>
     </div>
   );
 };

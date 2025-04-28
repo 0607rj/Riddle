@@ -1,6 +1,6 @@
-/* Base Styles */
+/* Base Styles for Riddle Game */
+
 .riddle-game-container {
-  background-color: #121212;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   min-height: 100vh;
@@ -8,6 +8,10 @@
   flex-direction: column;
   align-items: center;
   color: #eeeeee;
+  background-image: url('../assets/st.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Header */
@@ -35,7 +39,6 @@
 .riddle-list {
   width: 100%;
   max-width: 800px;
-  background-color: #1e1e1e;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
@@ -59,8 +62,6 @@
   font-size: 16px;
   border: 1px solid #555;
   border-radius: 6px;
-  background-color: #2c2c2c;
-  color: #ffffff;
   outline: none;
 }
 
@@ -101,49 +102,7 @@
   margin-top: 6px;
 }
 
-/* Start Screen */
-.start-screen {
-  height: 100vh;
-  width: 100vw;
-  background: url('../assets/st.png') no-repeat center center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-}
-
-.start-screen h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.start-screen p {
-  font-size: 1.3rem;
-  color: #cccccc;
-  margin-bottom: 2rem;
-}
-
-.start-button {
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
-  background-color: #222831;
-  color: #eeeeee;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-}
-
-.start-button:hover {
-  background-color: #393e46;
-  transform: scale(1.05);
-}
-
-/* Responsive Design */
+/* Responsive for Riddle Game */
 @media (max-width: 768px) {
   .header h2 {
     font-size: 24px;
@@ -170,19 +129,6 @@
   .submit-answers-button {
     font-size: 16px;
     padding: 12px 20px;
-  }
-
-  .start-screen h2 {
-    font-size: 2.2rem;
-  }
-
-  .start-screen p {
-    font-size: 1rem;
-  }
-
-  .start-button {
-    font-size: 1rem;
-    padding: 0.6rem 1.2rem;
   }
 }
 
@@ -214,18 +160,5 @@
   .submit-answers-button {
     font-size: 14px;
     padding: 10px 14px;
-  }
-
-  .start-screen h2 {
-    font-size: 1.7rem;
-  }
-
-  .start-screen p {
-    font-size: 0.9rem;
-  }
-
-  .start-button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
   }
 }

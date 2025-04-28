@@ -1,0 +1,122 @@
+.fullscreen-container {
+  height: 100vh;
+  width: 100vw;
+  background: url('../assets/bg.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.monitor-content {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+}
+
+/* Main Heading */
+.monitor-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  color: #00ffe1; /* Neon Teal */
+  text-shadow: 0 0 8px #00ffe1, 0 0 16px #00ffe1;
+}
+
+/* Subheading */
+.monitor-content h3 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: #00b7ff; /* Light Blue */
+  text-shadow: 0 0 5px #00b7ff;
+}
+
+/* Paragraph */
+.monitor-content p {
+  font-size: 1.2rem;
+  margin: 0.8rem 0;
+  color: #ffde59; /* Golden Yellow */
+  text-shadow: 0 0 3px #ffde59;
+}
+
+/* Start Button Section */
+.start-button {
+  margin: 2rem 0;
+}
+
+.start-button button {
+  padding: 0.8rem 2rem;
+  font-size: 1.2rem;
+  background-color: #111111;
+  color: #eeeeee;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.start-button button:hover {
+  background-color: #222831;
+  transform: scale(1.05);
+}
+
+/* Warning Text */
+.warning-text {
+  font-size: 0.9rem;
+  color: #ff4d4d; /* Red Warning */
+  margin-top: 1rem;
+  text-shadow: 0 0 3px #ff4d4d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .monitor-content {
+    padding: 1.5rem 2rem;
+  }
+
+  .monitor-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .monitor-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .monitor-content p {
+    font-size: 1rem;
+  }
+
+  .start-button button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .monitor-content {
+    padding: 1rem 1.5rem;
+  }
+
+  .monitor-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .monitor-content h3 {
+    font-size: 1rem;
+  }
+
+  .monitor-content p {
+    font-size: 0.9rem;
+  }
+
+  .start-button button {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
