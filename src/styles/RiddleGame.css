@@ -162,3 +162,74 @@
     padding: 10px 14px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+/* Modal Container */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Title Style */
+.modal-content h3 {
+  font-size: 24px;
+  color: #f39c12;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Message Style */
+.modal-content p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Button Style */
+.modal-content button {
+  background-color: #f39c12;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.modal-content button:hover {
+  background-color: #e67e22;
+}
+
+/* Button Focus Effect */
+.modal-content button:focus {
+  outline: none;
+}
