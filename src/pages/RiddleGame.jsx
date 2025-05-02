@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RiddleList from '../components/RiddleList';
 import '../styles/RiddleGame.css';
-import '../styles/Fullscreen.css';
+import "../styles/Fullscreen.css";
+
 
 const riddles = [ {
   id: 1,
@@ -54,7 +55,7 @@ const riddles = [ {
   question: 'I am a program that tracks your online activities without your permission. What am I?',
   hint: 'I gather your personal data and browsing habits, sometimes for malicious purposes.'
 }
-  // Your riddles here
+  
 ];
 
 const RiddleGame = ({ teamName }) => {
