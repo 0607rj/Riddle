@@ -19,7 +19,7 @@ const riddles = [ {
 
 
 
-//   jhsifkh
+
 {
   id: 3,
   question: 'I make your data unreadable to others, and only the right key can unlock it. What am I?',
@@ -67,7 +67,7 @@ const RiddleGame = ({ teamName }) => {
   const [answers, setAnswers] = useState(Array(riddles.length).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes timer
+  const [timeLeft, setTimeLeft] = useState(1200); // 30 minutes timer
   const [gameStarted, setGameStarted] = useState(false);
   const [warned, setWarned] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
